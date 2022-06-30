@@ -1,0 +1,240 @@
+#importação da Biblioteca Tkinter e componentes utilizados na tela
+import tkinter
+from tkinter import *
+from tkinter import messagebox
+
+#Importação das funções localizadas em outros arquivos
+from InserirProduto1 import inserir
+from Consulta1 import consulta
+from Atualizar1 import Alterar
+from ExcluiBanco1 import Excluir
+from Busca_Imagem import imagem
+
+#Importação da Biblioteca PIL para manipulação de imagem
+from PIL import Image, ImageTk
+
+class Application:
+    def __init__(self, master=None):
+        self.image = Frame(master)
+        self.fonte = ("Verdana", "8")
+        self.container1 = Frame(master)
+        self.container1["pady"] = 10
+        self.container1.pack()
+        self.container2 = Frame(master)
+        self.container2["padx"] = 20
+        self.container2["pady"] = 5
+        self.container2.pack()
+        self.container3 = Frame(master)
+        self.container3["padx"] = 20
+        self.container3["pady"] = 5
+        self.container3.pack()
+        self.container4 = Frame(master)
+        self.container4["padx"] = 20
+        self.container4["pady"] = 5
+        self.container4.pack()
+        self.container5 = Frame(master)
+        self.container5["padx"] = 20
+        self.container5["pady"] = 5
+        self.container5.pack()
+        self.container6 = Frame(master)
+        self.container6["padx"] = 20
+        self.container6["pady"] = 5
+        self.container6.pack()
+        self.container10 = Frame(master)
+        self.container10["padx"] = 20
+        self.container10["pady"] = 5
+        self.container10.pack()
+        self.container7 = Frame(master)
+        self.container7["padx"] = 20
+        self.container7["pady"] = 5
+        self.container7.pack()
+        self.container8 = Frame(master)
+        self.container8["padx"] = 20
+        self.container8["pady"] = 10
+        self.container8.pack()
+        self.container9 = Frame(master)
+        self.container9["pady"] = 15
+        self.container9.pack()
+        self.container11 = Frame(master)
+        self.container11["padx"] = 20
+        self.container11["pady"] = 10
+        self.container11.pack()
+
+        self.titulo = Label(self.container1, text="Informe os dados :")
+        self.titulo["font"] = ("Calibri", "9", "bold")
+        self.titulo.pack()
+
+        self.lbproduto = Label(self.container2, text="idProduto:", font=self.fonte, width=10)
+        self.lbproduto.pack(side=LEFT)
+
+        self.txtidproduto = Entry(self.container2)
+        self.txtidproduto["width"] = 10
+        self.txtidproduto["font"] = self.fonte
+        self.txtidproduto.pack(side=LEFT)
+
+        self.btnBuscar = Button(self.container2, text="Buscar", font=self.fonte, width=10) #Criação do Botão Selecionar
+        self.btnBuscar["command"] = self.buscarproduto #Atribui um comando ao botão, este comando chama a função selectimagem
+        self.btnBuscar.pack(side=RIGHT)
+
+        self.lblnome = Label(self.container3, text="Nome:", font=self.fonte, width=10)
+        self.lblnome.pack(side=LEFT)
+
+        self.txtnome = Entry(self.container3)
+        self.txtnome["width"] = 25
+        self.txtnome["font"] = self.fonte
+        self.txtnome.pack(side=LEFT)
+
+        self.lbldescricao = Label(self.container4, text="Descrição:", font=self.fonte, width=10)
+        self.lbldescricao.pack(side=LEFT)
+
+        self.txtdescricao = Text(self.container4, height=10)
+        self.txtdescricao["width"] = 25
+        self.txtdescricao["font"] = self.fonte
+        self.txtdescricao.pack(side=LEFT)
+
+        self.lblestoque = Label(self.container5, text='Estoque', font=self.fonte, width=10)
+        self.lblestoque.pack(side=LEFT)
+
+        self.txtestoque = Entry(self.container5)
+        self.txtestoque["width"] = 25
+        self.txtestoque["font"] = self.fonte
+        self.txtestoque.pack(side=LEFT)
+
+        self.lblpreco = Label(self.container6, text="Preço", font=self.fonte, width=10)
+        self.lblpreco.pack(side=LEFT)
+
+        self.txtpreco = Entry(self.container6)
+        self.txtpreco["width"] = 25
+        self.txtpreco["font"] = self.fonte
+        self.txtpreco.pack(side=LEFT)
+
+        self.lbimagem = Label(self.container10, text="Imagem", font=self.fonte, width=10)
+        self.lbimagem.pack(side=LEFT)
+
+        self.txtimagem = Entry(self.container10)
+        self.txtimagem["width"] = 20
+        self.txtimagem["font"] = self.fonte
+        self.txtimagem.pack(side=LEFT)
+
+        self.bntImagem = Button(self.container10, text="Selecionar", font=self.fonte, width=10) #Criação do Botão Selecionar
+        self.bntImagem["command"] = self.selectimagem #Atribui um comando ao botão, este comando chama a função selectimagem
+        self.bntImagem.pack(side=RIGHT)
+
+        self.lblmsg = Label(self.container8, text="")
+        self.lblmsg["font"] = ("Verdana", "9", "italic")
+        self.lblmsg.pack()
+
+        self.bntInsert = Button(self.container7, text="Inserir", font=self.fonte, width=12) #Criação do Botão Inserir
+        self.bntInsert["command"] = self.InserirProduto #Atribui um comando ao botão, este comando chama a função InserirProduto
+        self.bntInsert.pack(side=LEFT)
+
+        self.bntAlterar = Button(self.container7, text="Alterar", font=self.fonte, width=12) #Criação do Botão Alterar
+        self.bntAlterar["command"] = self.alterarProduto #Atribui um comando ao botão, este comando chama a função alterarProduto
+        self.bntAlterar.pack(side=LEFT)
+
+        self.bntExcluir = Button(self.container7, text="Excluir", font=self.fonte, width=12) #Criação do Botão Excluir
+        self.bntExcluir["command"] = self.excluirProduto #atribui um comando ao botão, este comanda chama a função excluirProduto
+        self.bntExcluir.pack(side=LEFT)
+
+        self.bntNovo = Button(self.container7, text="Novo", font=self.fonte, width=12) #Criação do Botão Novo
+        self.bntNovo["command"] = self.limpar #Atribui um comando ao Botão novo, chama a função limpar
+        self.bntNovo.pack(side=LEFT)
+
+    def InserirProduto(self): #Função chamada quando o usuario clicar no botao para inserir um novo produto
+        var_idproduto = self.txtidproduto.get()
+        var_nome = self.txtnome.get()
+        var_descricao = self.txtdescricao.get("1.0", 'end-1c')
+        var_estoque = self.txtestoque.get()
+        var_preco = self.txtpreco.get()
+        var_imagem = self.txtimagem.get()
+
+        inserir(var_idproduto, var_nome, var_descricao, var_estoque, var_preco, var_imagem) #Chama a função para inserir os produtos no BD, é necessario passar alguns valores
+
+        self.limpar()
+
+        self.lblmsg["text"] = 'Produto cadastrado!!!'
+
+    def alterarProduto(self): #Função chamada quando o usuario clicar no botão para alterar os dados de um produto
+        var_idproduto = self.txtidproduto.get()
+        var_nome = self.txtnome.get()
+        var_descricao = self.txtdescricao.get("1.0", 'end-1c')
+        var_estoque = self.txtestoque.get()
+        var_preco = self.txtpreco.get()
+        var_imagem = self.txtimagem.get()
+
+        Alterar(var_idproduto, var_nome, var_descricao, var_estoque, var_preco, var_imagem) #chama a função para alterar os dados do BD e passa alguns parametros para alteraçao
+
+        self.limpar()
+
+        self.lblmsg["text"] = 'Produto Alterado!!!'
+
+    def excluirProduto(self): #Função chamada quando o usuario aberto o botão para excluir um produto
+        var_idproduto = int(self.txtidproduto.get()) #atribui o idproduto a variavel
+        var_imagem = self.txtimagem.get() 
+
+        Excluir(var_idproduto, var_imagem) #passa as variaveis para a função que irá excluir o produto do BD
+
+        self.limpar()
+
+        self.lblmsg["text"] = "Item Deletado do Banco"
+
+    def buscarproduto(self): #Função que será chamada quando o usuario clicar o botão de buscar o produto
+        self.lblmsg["text"] = " "
+        try:
+            var_idproduto = int(self.txtidproduto.get()) #Atribui a variavel a idproduto informado pelo usuario
+            var_nome, var_descricao, var_estoque, var_preco, var_imagem = consulta(var_idproduto) #chama a função que consultará o produto no BD
+
+            self.txtnome.delete(0, END)
+            self.txtnome.insert(INSERT, var_nome)
+
+            self.txtdescricao.delete('1.0', END)
+            self.txtdescricao.insert(INSERT, var_descricao)
+
+            self.txtestoque.delete(0, END)
+            self.txtestoque.insert(INSERT, var_estoque)
+
+            self.txtpreco.delete(0, END)
+            self.txtpreco.insert(INSERT, var_preco)
+
+            self.txtimagem.delete(0, END)
+            self.txtimagem.insert(INSERT, var_imagem)
+
+            img = Image.open(var_imagem)
+            self.minhaimagem = ImageTk.PhotoImage(img)
+            self.lb = Label(self.container11, image=self.minhaimagem)
+            self.lb.image = self.minhaimagem
+            self.lb.pack()
+            self.lblmsg["text"] = " "
+
+        except:
+            self.txtnome.delete(0, END)
+            self.txtdescricao.delete('1.0', END)
+            self.txtestoque.delete(0, END)
+            self.txtpreco.delete(0, END)
+            self.txtimagem.delete(0, END)
+            self.lb.delete(0, END)
+            self.lblmsg["text"] = 'Produto não cadastrado!!!'
+            messagebox.showinfo("ERRO!!", "Produto não cadastrado!!")
+
+    def selectimagem(self): #Função que será chamada quando o usuario apertar o botão de selecionar imagem
+        imag = imagem() #Chama a função para selecionar a imagem e o caminho da mesma
+
+        self.txtimagem.delete(0, END)
+        self.txtimagem.insert(INSERT, imag)
+
+    def limpar(self): #Função Limpas que ira apagar todos os dados nas caixas de texto
+        self.txtidproduto.delete(0, END)
+        self.txtnome.delete(0, END)
+        self.txtdescricao.delete('1.0', END)
+        self.txtestoque.delete(0, END)
+        self.txtpreco.delete(0, END)
+        self.txtimagem.delete(0, END)
+
+        self.lblmsg["text"] = " "
+
+
+root = Tk() #Criação da tela e atribuindo ela a Biblioteca Tk
+root.geometry('800x700') #Dimencionando a tela para que ela sempre abra do mesmo tamanho
+root.title("Consultar no Banco") #Titulo da tela
+Application(root) 
+root.mainloop() #Colocando a tela em Loop para que só feche quando o usuario solicitar.
